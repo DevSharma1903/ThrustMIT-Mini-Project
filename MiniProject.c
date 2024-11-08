@@ -36,32 +36,30 @@ int main()
     float g = 9.81;       
 
     int ts1, ts2;
+    int timestamp1, timestamp2;
 
-    
+    printf("Enter burn time: ");
+    scanf("%d", &burn);
 
-    /*
     char mode;
     printf("User input (U) or simulated output (S)? : ");
-    scanf("%c", &mode);
+    scanf(" %c", &mode);
+
+    float altitudes[burn]; 
 
     mode = toupper(mode);
 
     switch(mode)
     {
         case 'S':
-        */
-
-            printf("Enter burn time: ");
-            scanf("%d", &burn);
-
-            float altitudes[burn]; 
-
+            
             printf("Enter time difference between data calculated: ");
             scanf("%d", &timeBtwData);
 
             rocket.acceleration = 0;
 
-            while (rocket.time <= burn) {
+            while (rocket.time <= burn) 
+            {
                 
                 rocket.velocity = (thrust / mass - g) * rocket.time;
                 rocket.altitude += rocket.velocity * 1;  
@@ -90,7 +88,44 @@ int main()
             scanf("%d %d", &ts1, &ts2);
 
             printf("Average altitude between timestamps %d and %d is %0.2f: \n", ts1, ts2, (altitudes[ts2]- altitudes[ts1]));
-    //}
 
+            break;
+
+        case 'U':
+
+            printf("Enter timstamp one: \n");
+            scanf("%d", &timestamp1);
+            printf("Enter timstamp two: \n");
+            scanf("%d", &timestamp2);
+
+            rocket.acceleration = 0;
+
+            while (rocket.time <= burn) 
+            {
+                
+                rocket.velocity = (thrust / mass - g) * rocket.time;
+                rocket.altitude += rocket.velocity * 1;  
+                altitudes[i] = rocket.altitude;
+                rocket.pressure = 1.01325 * pow((1 - (0.0000225577 * rocket.altitude)), 5.25588); 
+
+                if(rocket.time > 0)
+                {
+                    rocket.acceleration = ((thrust/mass) - g);
+                }
+                
+                if(rocket.time == timestamp1 || rocket.time == timestamp2)
+                {
+                    displayVals(rocket);
+                }
+                i++; 
+                rocket.time += 1;
+
+            } 
+                break;
+
+        default:
+            printf("Invalid entry \n");
+            break;
+    }
     return 0;
 }
